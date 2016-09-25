@@ -13,8 +13,12 @@ import sys
 ROOT_PATH = os.path.realpath(os.path.join(__file__, '../../'))
 sys.path.append(ROOT_PATH)
 
-from lucky.commander import Commander
-from lucky.config import _config
+from lucky.commander import Commander, install_commands
 
-print(Commander())
-print(_config)
+def main():
+    cmder = Commander(*sys.argv)
+    install_commands(cmder)
+    cmder.execute()
+
+if __name__ == '__main__':
+    main()
