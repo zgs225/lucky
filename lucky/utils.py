@@ -7,7 +7,7 @@ import datetime
 import tempfile
 
 from . import pinyin
-from .config import POST_PATH
+from .config import POST_PATH, _config
 
 def uri_case(title):
     """
@@ -18,8 +18,23 @@ def uri_case(title):
     title = re.sub(r'\s+', '-', title)
     return title
 
+def post_header(post_name, today):
+    header = """---
+template: "%s"
+title:    "%s"
+date:     "%s"
+---""" % (
+        _config.get('post.template', 'post'),
+        post_name.title(),
+        today.isoformat()
+    )
+
+    print(header)
+
+    return header
+
 def create_new_post(post_name):
-    today = datetime.date.today()
+    today = datetime.datetime.now()
     fullname = '%s-%s.markdown' % (
         today.strftime('%Y-%m-%d'), uri_case(post_name))
     pathname = os.path.join(POST_PATH, fullname)
@@ -32,7 +47,7 @@ def create_new_post(post_name):
             sys.exit(1)
 
     with tempfile.NamedTemporaryFile(delete=False) as fp:
-        fp.write(bytearray('你好', 'utf-8'))
+        fp.write(bytearray(post_header(post_name, today), 'utf-8'))
         os.rename(fp.name, pathname)
 
         print('创建： %s' % pathname)
