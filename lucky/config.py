@@ -6,13 +6,12 @@ import json
 
 from collections import UserDict
 
-ROOT_PATH = os.path.realpath(os.path.join(__file__, '../../'))
+# 用户当前工作目录
+CURT_PATH = os.path.realpath(os.curdir)
+POST_PATH = os.path.join(CURT_PATH, '_posts')
 
-def root_path():
-    """
-    获取项目的真是根目录地址
-    """
-    return ROOT_PATH
+# 源码根目录
+ROOT_PATH = os.path.realpath(os.path.join(__file__, '../../'))
 
 class Config(UserDict):
     def __init__(self):

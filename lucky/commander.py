@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 
+import os.path
+import argparse
+
+from .utils import create_new_post
+
 class Commander(object):
     """
     用于保存命令的字典，对应：
@@ -12,8 +17,13 @@ class Commander(object):
         Keyword Arguments:
         *args -- array of arguments like sys.argv
         """
-        self.args = args[1:]
-        self.action = args[1]
+        parser = argparse.ArgumentParser(description='Lucky static site generator')
+        parser.add_argument('action', default='new_post')
+        namespace, remains = parser.parse_known_args(args[1:])
+
+        self.parser = parser
+        self.action = namespace.action
+        self.args   = remains
 
     def register(self, cmd):
         """
@@ -25,10 +35,14 @@ class Commander(object):
         return decorator
 
     def execute(self):
-        func = self.commands[self.action]
-        func(*self.args)
+        try:
+            func = self.commands[self.action]
+        except KeyError:
+            print(self.parser.format_help())
+        else:
+            func(*self.args)
 
 def install_commands(cmder):
     @cmder.register('new_post')
     def new_post(*args):
-        print(args)
+        create_new_post(args[0])
