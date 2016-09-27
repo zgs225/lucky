@@ -29,8 +29,6 @@ date:     "%s"
         today.isoformat()
     )
 
-    print(header)
-
     return header
 
 def create_new_post(post_name):

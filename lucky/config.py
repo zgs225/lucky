@@ -18,7 +18,7 @@ class Config(UserDict):
         """
         用于加载config.json配置文件
         """
-        pathname = os.path.join(ROOT_PATH, 'config.json')
+        pathname = os.path.join(CURT_PATH, 'config.json')
 
         with open(pathname) as f:
             __dict__ = json.load(f)

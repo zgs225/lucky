@@ -10,10 +10,8 @@
 import os
 import sys
 
-ROOT_PATH = os.path.realpath(os.path.join(__file__, '../../'))
-sys.path.append(ROOT_PATH)
-
-from lucky.commander import Commander, install_commands
+from .config import ROOT_PATH
+from .commander import Commander, install_commands
 
 def main():
     cmder = Commander(*sys.argv)
